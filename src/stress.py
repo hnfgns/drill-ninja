@@ -13,7 +13,7 @@ def run(args):
   def query(i, stmt):
     logger.info('REQ %s', i)
     resp = bit.query(stmt)
-    logger.info('RESP #%d has %s', i, resp)
+    logger.info('RESP #%d: %s', i, resp)
 
   stmt = 'select * from cp.`employee.json` limit 1'
   pool.start()
