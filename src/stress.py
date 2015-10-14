@@ -12,11 +12,17 @@ def run(opts):
   logger.info('running with options %s', opts)
   bit = drill.Drillbit()
   pool = concurrent.ThreadPool(opts.concurrency)
-
+  positive = negative = 0
   def query(i, stmt):
     logger.info('REQ %s', i)
-    resp = bit.query(stmt)
-    logger.info('RESP #%d: %s', i, resp)
+    try:
+      resp = bit.query(stmt)
+      positive += 1
+    except Exception:
+      negative += 1
+
+    if i % 100 == 0:
+      logger.info('current: %d -- positive: %d -- negative: %d', i, positive, negative)
 
   stmt = 'select * from cp.`employee.json` limit 1'
   pool.start()
@@ -33,7 +39,7 @@ def run(opts):
 def parseOptions(args):
   parser = argparse.ArgumentParser()
   parser.add_argument('-c', action='store', dest='concurrency', default=10, type=int, required=0)
-  parser.add_argument('-r', action='store', dest='requests', default=100, type=int, required=0, help='total # of requests. 0 for infinity')
+  parser.add_argument('-r', action='store', dest='requests', default=100, type=int, required=0, help='total # of requests. 0 for making this endless')
   return parser.parse_args(args)
 
 if __name__ == '__main__':
