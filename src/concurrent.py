@@ -29,8 +29,6 @@ class Worker(threading.Thread):
       except queue.Empty:
         if not self.running:
           break
-      except Exception as e:
-        logger.error('Error while executing task', e)
       finally:
         time.sleep(.01)
 
