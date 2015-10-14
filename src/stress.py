@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 __author__ = 'hgunes'
 import logging
 import sys
