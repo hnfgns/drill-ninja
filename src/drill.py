@@ -53,7 +53,7 @@ class rest(object):
         else:
           raise 'Unsupported method', self.method
       except Exception as e:
-        logger.error('error while making rest call', e)
+        logger.exception('error while making rest call')
 
     return _rest_call
 
